@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "NNG Experiments",
-  "description": "This extension shows a Google Image search result for the current page",
+  "description": "This extension finds the xpath on the clicked element",
   "version": "1.0",
 
   "browser_action": {

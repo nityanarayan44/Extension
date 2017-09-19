@@ -1,7 +1,6 @@
 /*
 	@ Author: Ashutosh Mishra, NNG Experiments.
 	@ Version 1
-	@ Mindfire Solutions.
 	@ XPath Finder/Genearator
 	@ 25 AUG 2017
 */
