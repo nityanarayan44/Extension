@@ -1,0 +1,73 @@
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <style>
+      body {
+        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+        font-size: 100%;
+      }
+      #status {
+        /* avoid an excessively wide status text */
+        white-space: pre;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 400px;
+      }
+	  #controls{
+		min-width:400px;
+		max-width:500px;
+	  }
+	  button{
+		border-radius: 0px;
+		border-style: solid;
+		border-width: 2px;
+		border-color: transparent;
+		font-size: 0.7em;
+	  }
+	  button:hover{
+		border-bottom-left-radius: 0px;
+		border-bottom-right-radius: 0px;
+		border-bottom-style: solid;
+		border-bottom-width: 2px;
+		border-bottom-color: black;
+	  }
+    </style>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
+     -->
+    <script src="popup.js"></script>
+  </head>
+  <body>
+		<!-- popup UI control structure -->
+						<div id="controls">
+							
+							<!-- Title -->
+							<div><p><font size="4em" color="darkcyan" face="Calibri">Ready to record the actions.</font></p></div>
+							<!-- Basic Controls -->
+								<div>
+									<button id="startBtn">START</button>
+									<button id="settingBtn">SETTINGS</button>
+									<input type="button" value="sendMessage" onclick="chrome.extension.getBackgroundPage().testRequest()" />
+								</div>							
+							<!-- Results -->
+								<hr/>
+								<div id="status"></div>
+								<img id="image-result" hidden>
+							<!-- Extra information about this extension -->
+								<hr/>
+								<font size="2em" color="darkcyan" face="Calibri">@Author: Ashutosh Mishra,NNG Experiments <br/> @Mindfire Solutions, Noida.</font>
+								<font size="2em" color="darkcyan" face="Calibri"><marquee behavior="ALTERNATE">Extension Ready.</marquee></font>
+						</div>
+		
+  </body>
+</html>
