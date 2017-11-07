@@ -1,0 +1,114 @@
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <style>
+      body {
+        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+        font-size: 100%;
+      }
+      #status {
+        /* avoid an excessively wide status text */
+        white-space: pre;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 400px;
+      }
+			#projectName {
+					width: 45%;
+					border-top-style: none;
+					border-left-style: none;
+					border-right-style: none;
+			}
+			#projectName:focus {
+					border-bottom-left-radius: 0px;
+					border-bottom-right-radius: 0px;
+					border-bottom-style: solid;
+					border-bottom-color: black;
+					outline: none;
+			}
+			#startRecBtn {
+					width: 100px;
+					min-width: 100px;
+					max-width: 100px;
+			}
+			#actionLog {
+					min-width: 97%;
+					max-width: 97%;
+					width: 97%;
+					height: 150px;
+					border-style: dashed;
+					border-color: black;
+			}
+			#actionLog:focus {
+					border-style: solid;
+					outline: none;
+			}
+
+			#controls{
+				min-width:400px;
+				max-width:500px;
+			}
+
+	  input[type="button"]{
+			border-radius: 0px;
+			border-style: solid;
+			border-width: 2px;
+			border-color: transparent;
+			/* font-size: 0.7em; */
+	  }
+	  input[type="button"]:hover {
+			border-bottom-left-radius: 0px;
+			border-bottom-right-radius: 0px;
+			border-bottom-style: solid;
+			border-bottom-width: 2px;
+			border-bottom-color: black;
+	  }
+    </style>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
+     -->
+    <script src="popup.js"></script>
+  </head>
+  <body>
+		<!-- popup UI control structure -->
+						<div id="controls">
+							
+							<!-- Title -->
+								<div>
+									<p><font size="4em" color="darkcyan" face="Calibri">UI Automation Tools</font></p>
+								</div>
+							
+							<!-- Basic Controls -->
+								<hr/>
+								<div>
+									<input id="projectName" name="projectName" placeholder="Project name ..."/>
+									<input type="button" id="startRecBtn" value="REC" onclick="_doStartRecording();"/>
+									<input type="button" id="stopRecBtn" value="STOP" disabled/>
+									<input type="button" id="playRecBtn" value="PLAY" disabled/>
+									<!-- <input type="button" value="sendMessage" onclick="" /> -->
+								</div>					
+
+							<!-- Results -->
+								<!-- <div id="status"><b>Action Log</b></div> -->
+								<br/>
+								<div>Action Log</div>
+								<textarea id="actionLog" readonly="true"></textarea>
+
+							<!-- Extra information about this extension -->
+								<hr/>
+								<font size="2em" color="darkcyan" face="Calibri">@Author: Ashutosh Mishra, NNG Experiments <br/> @Mindfire Solutions, India</font>
+								<font size="2em" color="darkcyan" face="Calibri"><marquee behavior="ALTERNATE">Application is Ready.</marquee></font>
+						</div>
+		
+  </body>
+</html>

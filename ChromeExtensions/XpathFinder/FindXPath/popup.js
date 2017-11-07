@@ -4,18 +4,15 @@
 
 //Local vars for popup.
 var data = { 
-		"message": '', 
-		"status": 'off',
-		"element": '',
-		"text"	:"",
-		"name"	: '',
-		"xpath"	: ''
+		"message"	: '', 
+		"status"	: 'off',
+		"element"	: '',
+		"text"		: '',
+		"name"		: '',
+		"id"		: '',
+		'dimension'	: '',
+		"xpath"		: ''
 };
-
-//Extension Status Output
-function renderStatus() {
-  document.getElementById('status').innerHTML = '<b>STATUS: </b>'+ window.localStorage.getItem('ext_setting_startRec_status');
-}
 
 // Ready to insert the script, when DOM is loaded.
 	/*document.addEventListener('DOMContentLoaded', function() {
@@ -37,11 +34,14 @@ function renderStatus() {
 	chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {		
 		// Listening msg from background script
 			if(msg.from == 'background'){
+				console.log("Message from the background.");
 				data.message = msg.message;
 				data.element = msg.data.element;
+				data.id		= msg.data.id;
 				data.name	= msg.data.name;
 				data.text	= msg.data.text;
 				data.xpath	= msg.data.xpath;
+				data.dimension =  msg.data.dimension;
 				showData();
 			}
 	});
@@ -66,10 +66,15 @@ function renderStatus() {
 	}
 	
 	function showData(){
-		document.getElementById('status').innerHTML = '<b><u>ELEMENT:</b></u> ' 		+ data.element
-													+ '<br/> <b><u>NAME:</b></u> ' 		+ data.name
-													+ '<br/> <b><u>INNERTEXT:</b></u> ' + data.text
-													+ '<br/> <b><u>XPATH:</b></u> ' 	+ data.xpath ;
+		console.log("popup: Rendering Result.");
+		document.getElementById('status').innerHTML = '<table cellspacing="0" border="1" cellpadding="2"><thead><tr><th width="20%">Property</th><th align="left">Value</th></tr></thead><tbody>'
+													+ '<tr><td width="20%" align="right"> ID: </td><td> ' + data.id + '</td></tr>'
+													+ '<tr><td width="20%" align="right"> NAME: </td><td> ' + data.name + '</td></tr>'
+													+ '<tr><td width="20%" align="right"> ELEMENT: </td><td> ' + data.element + '</td></tr>'
+													+ '<tr><td width="20%" align="right"> DIMENSIONs: </td><td> ' + data.dimension + '</td></tr>'
+													+ '<tr><td width="20%" align="right"> INNERTEXT: </td><td> ' + data.text + '</td></tr>'
+													+ '<tr><td width="20%" align="right"> XPATH: </td><td> ' + data.xpath + '</td></tr>'
+													+ '</tbody></table>';
 	}
 	
 	//Whenever extension popup opens

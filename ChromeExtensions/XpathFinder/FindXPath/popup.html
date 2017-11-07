@@ -15,29 +15,31 @@
       #status {
         /* avoid an excessively wide status text */
         white-space: pre;
-        text-overflow: ellipsis;
         overflow: hidden;
-				font-size: 0.7rem;
+				overflow-x: scroll;
+				font-size: 1em;
 				color: darkcyan;
-        /* max-width: 400px; */
+        /* max-width: 400px; 
+					text-overflow: ellipsis;
+				*/
       }
 	  #controls{
-		min-width:400px;
-		max-width:500px;
+			min-width:400px;
+			max-width:500px;
 	  }
 	  button{
-		border-radius: 0px;
-		border-style: solid;
-		border-width: 2px;
-		border-color: transparent;
-		font-size: 0.7em;
+			border-radius: 0px;
+			border-style: solid;
+			border-width: 2px;
+			border-color: transparent;
+			font-size: 0.7em;
 	  }
 	  button:hover{
-		border-bottom-left-radius: 0px;
-		border-bottom-right-radius: 0px;
-		border-bottom-style: solid;
-		border-bottom-width: 2px;
-		border-bottom-color: black;
+			border-bottom-left-radius: 0px;
+			border-bottom-right-radius: 0px;
+			border-bottom-style: solid;
+			border-bottom-width: 2px;
+			border-bottom-color: black;
 	  }
     </style>
 
@@ -55,15 +57,16 @@
 							
 							<!-- Title -->
 							<div>
-									<p><font size="4em" color="darkcyan" face="Calibri">XPATH CAPTURE</font></p>
+									<p><font size="4em" color="darkcyan" face="Calibri">XPath Finder</font></p>
 							</div>
 													
 							<!-- Results -->
 								<hr/>
+								Clicked element Info: <br/>
 								<div id="status"></div>
 							<!-- Extra information about this extension -->
 								<hr/>
-								<font size="2em" color="darkcyan" face="Calibri">@Author: Ashutosh Mishra,NNG Experiments [@MFSI-Noida]<br/></font>
+								<font size="2em" color="darkcyan" face="Calibri">@Author: Ashutosh Mishra,NNG Experiments [@MFSI]<br/></font>
 								<font size="2em" color="darkcyan" face="Calibri"><marquee behavior="ALTERNATE">Extension Ready.</marquee></font>
 						</div>
 		

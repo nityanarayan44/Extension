@@ -42,15 +42,20 @@
 	
 	//listening for click events.
 	window.addEventListener('click', function(event) {
+		console.log("Injection: On Click");
 		broadcastMessage( getElementInfo(event) );
 	});
+
+
 	
 	//get element info
 	function getElementInfo(event) {
 		// id, some specific properties
 		return {
 				"element"		: event.target.tagName,
+				"id"			: event.target.id,
 				"name"			: event.target.name,
+				"dimension"		: "X = "+ event.target.getBoundingClientRect().x + ", Y = " + event.target.getBoundingClientRect().y,
 				"text"			: event.target.innerText,
 				"xpath"			: generateXpath(event)
 		};
@@ -100,37 +105,67 @@
 // XPATH Generation
 // Do not touch here ...
 //================================================================================================================
-function generateXpath(event) {
-	if (event===undefined) 
-		event= window.event; // IE hack
-	var target= 'target' in event? 
-		event.target : event.srcElement; // another IE hack
+			function generateXpath(event) {
+				if (event===undefined) 
+					event= window.event; // IE hack
+				var target= 'target' in event? 
+					event.target : event.srcElement; // another IE hack
 
-	var root= document.compatMode==='CSS1Compat'? 
-		document.documentElement : document.body;
-    var mxy= [event.clientX+root.scrollLeft, event.clientY+root.scrollTop];
+				var root= document.compatMode==='CSS1Compat'? 
+					document.documentElement : document.body;
+				var mxy= [event.clientX+root.scrollLeft, event.clientY+root.scrollTop];
 
-	var path= getPathTo(target);
-	return path;
-    //var txy= getPageXY(target);
-    //alert('Clicked element '+path+' offset '+(mxy[0]-txy[0])+', '+(mxy[1]-txy[1]));
-}
+				// Return the xpath, and if not contains the .// then add beefore returning.
+				return ((getAbsPath(target)).indexOf(".//") ? ".//"+ getAbsPath(target) : getAbsPath(target));
+				//return path[0];
+				//var txy= getPageXY(target);
+				//alert('Clicked element '+path+' offset '+(mxy[0]-txy[0])+', '+(mxy[1]-txy[1]));
+			}
 
-function getPathTo(element) {
-	//When element is having a name.
-	if (element.name && element.name!=='' && element.name!==undefined) return './/'+element.tagName+'[@name="'+element.name+'"]';
-	
-	//When element is body itself.
-    if (element===document.body) return element.tagName;
+			function getAbsPath(element) {
+				// Iterate through all the element for linear traversal
+				if(element !== undefined){
+					var ix = 0;
+					var siblings= element.parentNode.childNodes;
+					for (var i= 0; i<siblings.length; i++) {
+						var sibling= siblings[i];
+						if (sibling===element)
+							return getXPath(element.parentNode)+'/'+element.tagName+'['+(ix+1)+']';
+						if (sibling.nodeType===1 && sibling.tagName===element.tagName)
+							ix++;
+					}
+				}
+			}
 
-	//Otherwise, iterate through all the element for linear traversal
-    var ix= 0;
-    var siblings= element.parentNode.childNodes;
-    for (var i= 0; i<siblings.length; i++) {
-        var sibling= siblings[i];
-        if (sibling===element)
-            return getPathTo(element.parentNode)+'/'+element.tagName+'['+(ix+1)+']';
-        if (sibling.nodeType===1 && sibling.tagName===element.tagName)
-            ix++;
-    }
-}
+			function getXPath(element){
+				//When element is having a name.
+				if (element.name && element.name!=='' && element.name!==undefined) {
+					//console.log("found element name");
+					return './/'+element.tagName+'[@name="'+element.name+'"]';
+				}
+				
+				//When element is body itself.
+				if (element===document.body) return element.tagName;
+
+				//Otherwise, iterate through all the element for linear traversal
+				if(element !== undefined){
+					
+					//Proceed only, when element hace its parent node and child of parent
+					if(element.parentNode && element.parentNode.childNodes){
+						var ix = 0;
+						var siblings = element.parentNode.childNodes;
+						for (var i = 0; i<siblings.length; i++) {
+							//console.dir(element);
+							var sibling = siblings[i];
+							if (sibling===element) {
+								if (element.name && element.name!=='' && element.name!==undefined) 
+									return getXPath(element.parentNode) + '/' + element.tagName+ '[@name="'+element.name+'"]';
+								else
+									return getXPath(element.parentNode) + '/' + element.tagName+ '['+(ix+1)+']';
+							}
+							if (sibling.nodeType===1 && sibling.tagName===element.tagName)
+								ix++;
+						}
+					}
+				}
+			}

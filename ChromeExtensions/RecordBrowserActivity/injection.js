@@ -1,10 +1,12 @@
-/*
-	@ Author: Ashutosh Mishra, NNG Experiments.
-	@ Version 1
-	@ Mindfire Solutions.
-	@ Site Step Recorder
-	@ 25 AUG 2017
-*/
+/**
+ *======================================================
+ * @author 	: Ashutosh Mishra [nityanarayan44]
+ * @license	: MIT License
+ * @desc	: Recording the user activity on browser.
+ * @NNG Experiments
+ * 25 Aug 2017
+ */
+
 
 //================================================================================================================
 // GLOBAL SETUP
@@ -24,6 +26,11 @@
 	
 	//Gloabal Array for all recorded data.
 	var dataArr = new Array();
+	var extData = new Array();
+	var projectId = "Project_"+parseInt(Math.random() * 100000000);
+
+	//Flag variables
+	var recordStatus = false;
 
 	
 //================================================================================================================
@@ -92,87 +99,97 @@
 //================================================================================================================
 // Event-Listener Registrations
 //================================================================================================================
-	//listening for document to be fully loaded.
-	/*document.addEventListener("DOMContentLoaded", function(event) {
+	//listening for document to be fully re/loaded.
+	document.addEventListener("DOMContentLoaded", function(event) {
 		console.log("DOM fully loaded and parsed");
-		makeCall( encodeURIComponent({"step":"1", "timeStamp": getTimeStamp(), "navigatedTo" : getUrl()}) );
-	});*/
+		dataArr.push({ 'url':parseInt(Math.random() * 100000000), 'actionType':'redirect' });
+		// Log the recorded data
+		showInfo();
+		// No need to call api to send data.
+		// makeCall( encodeURIComponent({"step":"1", "timeStamp": getTimeStamp(), "navigatedTo" : getUrl()}) );
+	});
 	
 	//listening for click events.
-	window.addEventListener('click', function(obj) {
-		//insertion to local
-		//insertData( getElementData(obj) );
-		
-		//Send to server.
-		makeCall( encodeURIComponent( JSON.stringify( getElementData(obj) ) ) );
-		
-		//clearLocalStorage();
-		
-		//insertToLocalStorage('site1', (JSON.stringify(dataArr)));
-		
-		clearOutput();
-		
-		log( getElementData(obj) );
-
-		// Send this data to background page
-		chrome.runtime.sendMessage({
-				total	 :	document.querySelectorAll('*').length,
-				inputs	 :	document.querySelectorAll('input').length,
-				buttons	 :	document.querySelectorAll('button').length,
-				recStatus:	window.localStorage.getItem('ext_setting_startRec_status')
-		});
+	window.addEventListener('click', function(event) {
+		let url = event.target.baseURI;
+		let actionType = "click";
+		let elementName = event.target.tagName;
+		let elementXPath = generateXpath(event);
+		dataArr.push({ 'url':url, 'actionType':actionType, 'elementName': elementName, 'elementXPath': elementXPath });
+		// Log the recorded data
+		showInfo();
+	});
+	
+	//listening for onchange events.
+	window.addEventListener('change', function(event){
+		let url = event.target.baseURI;
+		let actionType = "change";
+		let elementName = event.target.tagName;
+		let elementXPath = generateXpath(event);
+		let elementValue = event.target.value;
+		dataArr.push({ 'url':url, 'actionType':actionType, 'elementName': elementName, 'elementXPath': elementXPath, 'elementValue': elementValue });
+		// Log the recorded data
+		showInfo();
+	});
+	
+	//listening for blur events.
+	window.addEventListener('blur', function(event){
+		let url = event.target.baseURI;
+		let actionType = "off-focus";
+		let elementName = event.target.tagName;
+		let elementXPath = generateXpath(event);
+		let elementValue = event.target.value;
+		dataArr.push({ 'url':url, 'actionType':actionType, 'elementName': elementName, 'elementXPath': elementXPath, 'elementValue': elementValue });
+		// Log the recorded data
+		showInfo();
 	});
 	
 	//listening for double click events.
 	//window.addEventListener('dblclick', onDblClick);
 	//listening for keypress events.
 	//window.addEventListener('keypress', onKeypress);
-	//listening for blur events.
-	//window.addEventListener('blur', 	onBlur);
-	//listening for onchange events.
-	//window.addEventListener('change', 	onChange);
 	
 //================================================================================================================
-// Listening message from popup.js, as well as inform the back ground page.
-// sent from popup for some data...
+// Fetching an event and then,
+// XPath Evaluation
 //================================================================================================================
-	// Inform the background page that 
-	// this tab should have a page-action
-	/*chrome.runtime.sendMessage({
-	  from:    'injection',
-	  subject: 'showPageAction'
-	});*/
-	
-	//listen for message from the popup.
-	/*chrome.runtime.onMessage.addListener(function (msg, sender, response) {
-		// First, validate the message's structure
-		if ((msg.from === 'popup') && (msg.subject === 'DOMInfo')) {
-			// Collect the necessary data 
-			// (For your specific requirements `document.querySelectorAll(...)`
-			//  should be equivalent to jquery's `$(...)`)
-			var domInfo = {
-				total	 :	document.querySelectorAll('*').length,
-				inputs	 :	document.querySelectorAll('input').length,
-				buttons	 :	document.querySelectorAll('button').length,
-				recStatus:	window.localStorage.getItem('ext_setting_startRec_status')
-			};
+		
+		function generateXpath(event) {
+			if (event===undefined) 
+				event= window.event; // IE hack
+			var target= 'target' in event? 
+				event.target : event.srcElement; // another IE hack
 
-			// Directly respond to the sender (popup), 
-			// through the specified callback 
-			response(domInfo);
+			var root= document.compatMode==='CSS1Compat'? 
+				document.documentElement : document.body;
+			var mxy= [event.clientX+root.scrollLeft, event.clientY+root.scrollTop];
+
+			var path= getPathTo(target);
+			return path;
+			//var txy= getPageXY(target);
+			//alert('Clicked element '+path+' offset '+(mxy[0]-txy[0])+', '+(mxy[1]-txy[1]));
 		}
-	});*/
-	/* chrome.runtime.sendMessage({
-				total	 :	document.querySelectorAll('*').length,
-				inputs	 :	document.querySelectorAll('input').length,
-				buttons	 :	document.querySelectorAll('button').length,
-				recStatus:	window.localStorage.getItem('ext_setting_startRec_status')
-	});*/
-	
-	/*chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-		if (request.greeting == "hello")
-			alert("hello background");
-	});*/
+
+		function getPathTo(element) {
+			//When element is having a name.
+			if (element.name && element.name!=='' && element.name!==undefined) return './/'+element.tagName+'[@name="'+element.name+'"]';
+			
+			//When element is body itself.
+			if (element===document.body) return element.tagName;
+
+			//Otherwise, iterate through all the element for linear traversal
+			if(element !== undefined) {
+				var ix= 0;
+				var siblings= element.parentNode.childNodes;
+				for (var i= 0; i<siblings.length; i++) {
+					var sibling= siblings[i];
+					if (sibling===element)
+						return getPathTo(element.parentNode)+'/'+element.tagName+'['+(ix+1)+']';
+					if (sibling.nodeType===1 && sibling.tagName===element.tagName)
+						ix++;
+				}
+			}
+		}
 
 //================================================================================================================
 // Logging Data, Repeatitive
@@ -180,20 +197,12 @@
 	//just simply printing a message.
 	function showInfo(){
 		console.clear();
-		console.info( '>>> Loading Settings...' );
-		console.log( 'STATUS: ' + window.localStorage.getItem('ext_setting_startRec_status') );
+		console.info( '>>> Loading Data...' );
+		//console.log( 'STATUS: ' + window.localStorage.getItem('ext_setting_startRec_status') );
+		console.dir(dataArr);
 	}
 
 	//repeating on every 10 seconds
-	setInterval(showInfo,10000);
+	//setInterval(showInfo,10000);
 
-
-/**
-* TODO LIST
-*==============================
-* 1# Get the URL first.
-* 2# Record the action 
-*		- XPATH	| ACTIONTYPE	| VALUE(if any)
-* 3# at the end, group all the action by its url.
-* 4# 
-*/
+// EOScript

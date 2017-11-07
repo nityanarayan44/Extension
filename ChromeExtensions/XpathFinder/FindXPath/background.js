@@ -18,7 +18,9 @@ var data = {
 	"element"	: "",
 	"name"		: "",
 	"text"		: "",
-	"xpath"		: ""
+	"xpath"		: "",
+	"id"		: "",
+	"dimension"	: ""
 };
 
 
@@ -33,7 +35,6 @@ var data = {
 		//Message from Popup, on-popup-open 
 		if(msg.from == 'popup' && msg.event == 'on-popup-open') {
 			//when popup is opened then send the data to popup.
-			console.info("Sending data to popup...");
 			sendDataToPopup();
 		}
 
@@ -52,6 +53,8 @@ var data = {
 			data.name 	= msg.data.name;
 			data.text 	= msg.data.text;
 			data.xpath 	= msg.data.xpath;
+			data.id		= msg.data.id;
+			data.dimension= msg.data.dimension;
 		}
 
 	});
@@ -60,6 +63,7 @@ var data = {
 // Functions
 //================================================================================================================
 	function sendDataToPopup() {
+		console.log("Sending Data to Popup ");
 		chrome.runtime.sendMessage({
 			'from'		:	'background', 
 			'event'		:	'on-popup-open-response', 

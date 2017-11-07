@@ -1,4 +1,5 @@
 /**
+ * 
  * @ Author: Ashutosh Mishra, NNG Experiments.
  * @ Version 1.0.0
  * @ Started 25 AUG 2017
@@ -8,8 +9,18 @@
 //================================================================================================================
 // Global vars
 //================================================================================================================
-var recStatus = 'OFF';
-var message = 'Not Recording !';
+var recStatus 	= 'OFF';
+var message 	= 'Not Recording !';
+var recObject	= new Array();
+var projectObj	= { 
+					"timeStamp"		:"",
+					"projectId"		:"",
+					"projectName"	:"",
+					"appUrl"		:"",
+					"useAction"		:"",
+					"actionElement"	:"",
+					"actionData"	:""
+				};
 
 //================================================================================================================
 // Extension Background Services
@@ -31,6 +42,7 @@ var message = 'Not Recording !';
 			console.log(msg.data);
 		}
 
+		//This area is responsible for Data action record
 		//Message from injection script
 		if(msg.from == 'injection' && msg.event == 'on-record') {
 			//Recording the actions through the injected script

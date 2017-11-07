@@ -1,7 +1,10 @@
-// @author : Ashutosh Mishra
-// MIT License 2017.
-// Use of this source code is open
-
+/**
+ *======================================================
+ * @author 	: Ashutosh Mishra [nityanarayan44]
+ * @license	: MIT License
+ * @desc	: Recording the user activity on browser.
+ * @NNG Experiments
+ */
 
 /**
  *=============================================
@@ -116,11 +119,11 @@ function renderStatus() {
 			// ...query for the active tab...
 			chrome.tabs.query( { active: true, currentWindow: true }, function (tabs) {
 					// ...and send a request for the DOM info...
-					chrome.tabs.sendMessage( tabs[0].id, {from: 'injection', subject: 'DOMInfo'}, cb_script_popup_open );
+					chrome.tabs.sendMessage( tabs[0].id, {from: 'popup_Script', subject: 'DOMInfo'}, cb_script_popup_open );
 			});
 			
 			// Load the current data, when popup is open/shown.
-			loadCurrentStatus();
+			//loadCurrentStatus();
 
 			// Record Button click event registration.
 			document.getElementById('startBtn').addEventListener('click', recordOnClick);
