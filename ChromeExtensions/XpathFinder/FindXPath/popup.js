@@ -1,6 +1,13 @@
-// @author : Ashutosh Mishra
-// MIT License 2017.
-// Use of this source code is open
+/**
+ * @ Author: Ashutosh Mishra, NNG Experiments.
+ * @ Version 1.0.0
+ * @ Started 25 AUG 2017
+ * @ Modified 07 Nov 2017
+ * @ Site Step Recorder, Locator XPath Generation
+ * 
+ * @license : MIT License 2017
+ * Use of this source code is open
+ */
 
 //Local vars for popup.
 var data = { 
