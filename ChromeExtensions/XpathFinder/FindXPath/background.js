@@ -2,7 +2,7 @@
  * @ Author: Ashutosh Mishra, NNG Experiments.
  * @ Version 1.0.0
  * @ Started 25 AUG 2017
- * @ Modified 07 Nov 2017
+ * @ Modified 08 Nov 2017 [Prototype-1 Ready October-2017][Prototype-2 Ready 08-November-2017]
  * @ Site Step Recorder, Locator XPath Generation
  *
  */
@@ -81,17 +81,29 @@ var data = {
 		});
 	}
 
+	/*
+	 * Workings on XPath suggestion.
+	 **/
 	function suggetionsXPath(obj){
 		var sugg = "";
 		if(obj !== undefined && obj !== null ){
-			// Suggestion based on ID and/or innerText
-			sugg += ( (obj.id !== undefined && obj.id !== "" && obj.id.length !== 0) && (obj.text !== undefined && obj.text !== "")) ? ("//*[@id='"+ obj.id +"'] <br/> //*[@id='"+ obj.id +"' and @text()='"+ obj.text +"'] <br/> //*[@id='"+ obj.id +"' and contains(text(),'"+ obj.text +"')] <br/> ") : "";
+			// Suggestions based on ID
+			sugg += ( obj.id !== "" && obj.id !== undefined) ? ("//*[@id='"+ obj.id +"'] <br/> //*[contains(@id,'"+ obj.id +"')] <br/>") : "" ;
 
-			// Suggestion based on Class and/or innerText
-			sugg += ( (obj.className !== undefined && obj.className !== "") && (obj.text !== undefined && obj.txt !== "")) ? ("//*[@class='"+ obj.className +"'] <br/> //*[@class='"+ obj.className +"' and contains(text(), '"+ obj.text +"') ] <br/> //*[@class='"+ obj.className +"' and @text()='"+ obj.text +"'] <br/>") : "" ;
+			// Suggestion based on Name
+			sugg += ( obj.name !== "" && obj.name !== undefined) ? (" //*[@name='"+ obj.name +"'] <br/> //*[contains(@name,'"+ obj.name +"')] <br/>") : "" ;
+
+			// Suggestion based on className
+			sugg += ( obj.className !== "" && obj.className !== undefined) ? (" //*[@class='"+ obj.className +"'] <br/> //*[contains(@class,'"+ obj.className +"')] <br/>") : "" ;
 
 			// Suggestion based on innerText
-			sugg += ( obj.text !== "" && obj.text !== undefined) ? ("//*[@text()='"+ obj.text +"'] <br/> //*[contains(text(),'"+ obj.text +"')] <br/> ") : "" ;
+			sugg += ( obj.text !== "" && obj.text !== undefined) ? (" //*[text()='"+ obj.text +"'] <br/> //*[contains(text(),'"+ obj.text +"')] <br/>") : "" ;
+
+			// Suggestion based on ID and/or innerText
+			sugg += ( (obj.id !== undefined && obj.id !== "" && obj.id.length !== 0) && (obj.text !== undefined && obj.text !== "" && obj.text.length !== 0)) ? (" //*[@id='"+ obj.id +"' and text()='"+ obj.text +"'] <br/> //*[@id='"+ obj.id +"' and contains(text(),'"+ obj.text +"')] <br/>") : "";
+
+			// Suggestion based on Class and/or innerText
+			sugg += ( (obj.className !== undefined && obj.className !== "") && (obj.text !== undefined && obj.text !== "") ) ? (" //*[@class='"+ obj.className +"' and contains(text(), '"+ obj.text +"') ] <br/> //*[@class='"+ obj.className +"' and text()='"+ obj.text +"'] <br/>") : "" ;
 
 			// Suggestion based on dimension
 			sugg += ( obj.dimension !== "" && obj.dimension !== undefined) ? ("<br/> dimension (x, y) can be used in Action Class or Robot class of java.") : "";

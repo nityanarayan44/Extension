@@ -2,7 +2,7 @@
  * @ Author: Ashutosh Mishra, NNG Experiments.
  * @ Version 1.0.0
  * @ Started 25 AUG 2017
- * @ Modified 07 Nov 2017
+ * @ Modified 08 Nov 2017 [Prototype-1 Ready October-2017][Prototype-2 Ready 08-November-2017]
  * @ Site Step Recorder, Locator XPath Generation
  *
  * @license : MIT License 2017
@@ -16,26 +16,12 @@ var data = {
 		"element"	: '',
 		"text"		: '',
 		"name"		: '',
-		"className"	: "",
+		"className"	: '',
 		"id"		: '',
 		'dimension'	: '',
 		"xpath"		: '',
 		"xpath_Suggestions"	: ''
 };
-
-// Ready to insert the script, when DOM is loaded.
-	/*document.addEventListener('DOMContentLoaded', function() {
-		console.log('started...');
-		// Set the initial recording status.
-		renderStatus();
-
-		//getting buttons and then setting/registering click event for them.
-		var btns = document.querySelectorAll('button');
-		for (var i = 0; i < btns.length; i++) {
-			btns[i].addEventListener('click', click);
-		}
-
-	});*/
 
 //================================================================================================================
 // Message Passing [popup, injection, background]
@@ -44,14 +30,14 @@ var data = {
 		// Listening msg from background script
 			if(msg.from == 'background'){
 				console.log("Message from the background.");
-				data.message = msg.message;
-				data.element = msg.data.element;
-				data.id		= msg.data.id;
-				data.name	= msg.data.name;
-				data.text	= msg.data.text;
-				data.xpath	= msg.data.xpath;
-				data.className = msg.data.className;
-				data.dimension =  msg.data.dimension;
+				data.message	= msg.message;
+				data.element 	= msg.data.element;
+				data.id			= msg.data.id;
+				data.name		= msg.data.name;
+				data.text		= msg.data.text;
+				data.xpath		= msg.data.xpath;
+				data.className 	= msg.data.className;
+				data.dimension 	=  msg.data.dimension;
 				data.xpath_Suggestions = msg.data.xpath_Suggestions;
 				showData();
 			}
@@ -76,26 +62,53 @@ var data = {
 		chrome.runtime.sendMessage({'from':'popup', 'event':'on-recordbtn-click', 'message':'Sending the recording status.', 'data': {'status':'on'} });
 	}
 
+	//Showing from the data object
 	function showData(){
 		console.log("popup: Rendering Result.");
-		//if(data.element !== undefined || data.element !== "" || !isNaN(data.element) ){
-			//console.dir( data );
-			document.getElementById('status').innerHTML = '<table cellspacing="0" border="1" cellpadding="2"><thead><tr><th width="20%">Property</th><th align="left">Value</th></tr></thead><tbody>' +
-														 '<tr><td width="20%" align="right"> Id: </td><td> ' + data.id + '</td></tr>' +
-														 '<tr><td width="20%" align="right"> Name: </td><td> ' + data.name + '</td></tr>' +
-														 '<tr><td width="20%" align="right"> ClassName: </td><td> ' + data.className + '</td></tr>' +
-														 '<tr><td width="20%" align="right"> Element: </td><td> ' + data.element + '</td></tr>' +
-														 '<tr><td width="20%" align="right"> DIMENSIONs: </td><td> ' + data.dimension + '</td></tr>' +
-														 '<tr><td width="20%" align="right" title="Considered first 10 charecters of innerText."> INNERTEXT: </td><td> ' + data.text + '</td></tr>' +
-														 '<tr><td width="20%" align="right">' +
-														 	' XPATH: </td><td> ' + data.xpath + '<table border="0" spacing="2"></tbody>' +
-																'<br/> <b><u><i>Further Suggestions:</b></u></i> <tr><td> '+ data.xpath_Suggestions +' </td></tr>' +
-															'</tbody></table>' +
+		console.dir(data);
+
+		if(data.element !== undefined && data.element !== "" ){
+			document.getElementById('noData').innerHTML = '';
+			document.getElementById('status').innerHTML = '<table cellspacing="0" border="1" cellpadding="2" title="Always shows the last element data."><thead><tr><th width="20%">Property</th><th align="left">Value</th></tr></thead><tbody>' +
+														 '<tr><td width="20%" align="right"> Id: </td><td> ' 		+ data.id 	+ '</td></tr>' +
+														 '<tr><td width="20%" align="right"> Name: </td><td> ' 		+ data.name + '</td></tr>' +
+														 '<tr><td width="20%" align="right"> ClassName: </td><td> ' + data.className+ '</td></tr>' +
+														 '<tr><td width="20%" align="right"> Element: </td><td> ' 	+ data.element 	+ '</td></tr>' +
+														 '<tr><td width="20%" align="right"> Dimensions: </td><td> '+ data.dimension+ '</td></tr>' +
+														 '<tr><td width="20%" align="right" title="Considered first 10 charecters of innerText."> InnerText: </td><td> ' + data.text + '</td></tr>' +
+														 '<tr><td colspan="2" title="These XPath Suggestions are just for the further consideration.">' +
+														 	' <u>Default Absolute XPath:</u>  ' + data.xpath + '<br/><br/>' +
+															' <u>XPath Suggestions:</u> <br/> ' + data.xpath_Suggestions + '' +
 														 '</td></tr>' +
 														 '</tbody></table>';
-		//}else {
-			//document.getElementById('status').innerHTML = '<table cellspacing="0" border="1" cellpadding="2"><tr><th width="20%"> No Data </th></tr></table>';
-		//}
+		}else {
+			document.getElementById('status').innerHTML = '';
+			document.getElementById('noData').innerHTML = '<div class="comp">'+
+																'<center>'+
+																'<div class="box1">'+
+																	'<marquee direction="down" width="100%" height="100%" behavior="alternate" SCROLLAMOUNT="5">'+
+																		'<marquee direction="left" behavior="alternate">'+
+																				'<marque direction="up">'+
+																					'<marque direction="right">'+
+																							'<span id="screenText"> No Data </span>'+
+																					'</marque>'+
+																				'</marquee>'+
+																		'</marquee>'+
+																	'</marquee>'+
+																'</div>'+
+																'<div style="width:30px; height:40px; margin-top:-2px; border-style:solid;border-width:2px;border-color:darkred; z-index:2; background-color:transparent;"></div>'+
+																'<div class="box1_base" ></div>'+
+																'</center>'+
+															'</div>';
+
+		}// End of else
+	}// End of function
+
+	//Resetting the data
+	function clearData(){
+		console.log("Data Cleared !!!");
+		data = {};
+		showData();
 	}
 
 	//Whenever extension popup opens
@@ -118,5 +131,5 @@ var data = {
 			showData();
 
 			// Record Button click event registration.
-			//document.getElementById('startBtn').addEventListener('click', recordOnClick);
+			document.getElementById('clearDataLink').addEventListener('click', clearData);
 	});
