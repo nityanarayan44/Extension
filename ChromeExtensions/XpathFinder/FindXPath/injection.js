@@ -13,7 +13,7 @@
 	var requestMethod		= 'GET';
 	var requestContentType	= 'text/plain';
 	var serverAPIAddress 	= 'http://127.0.0.1:8080/parameters?foo=';
-	
+
 	//Element for holding values.
 	var elements			= 'INPUT, TEXTAREA, BUTTON, CHECKBOX, RADIO, OPTION, DIV, SPAN, LI, OL, UL, P';
 	var inputType			= "button,checkbox,color,date,datetime-local,email,file,hidden,image,month,number,password,radio,range,reset,search,submit,tel,text,time,url,week";
@@ -21,14 +21,14 @@
 	var booleanElements		= 'RADIO, CHECKBOX';
 	var dropdownElements	= 'OPTION, SELECT';
 	var controlElements		= 'BUTTON';
-	
+
 	//Gloabal Array for all recorded data.
-	var dataArr = new Array();
-	
-	
+	var dataArr = [];
+
+
 //================================================================================================================
 // Variable Initialization of injected script
-//================================================================================================================	
+//================================================================================================================
 	window.localStorage.setItem('ext_setting_startRec_status','OFF');//Setting initial recording OFF.
 	window.localStorage.setItem('siteData', ''); 					//Setting initial site recorded data blank.
 
@@ -40,26 +40,35 @@
 		console.log("DOM fully loaded and parsed");
 		makeCall( encodeURIComponent({"step":"1", "timeStamp": getTimeStamp(), "navigatedTo" : getUrl()}) );
 	});*/
-	
+
 	//listening for click events.
 	window.addEventListener('click', function(event) {
-		console.log("Injection: On Click");
+		console.log("[Injection] Current Element "+ event.target.tagName);
 		broadcastMessage( getElementInfo(event) );
 	});
 
 
-	
+
 	//get element info
 	function getElementInfo(event) {
-		// id, some specific properties
+		// some specific properties
+		console.log(">>>> " + typeof event.target.id + ", " + event.target.className+ ", " +event.target.name);
 		return {
 				"element"		: event.target.tagName,
-				"id"			: event.target.id,
-				"name"			: event.target.name,
+				"id"			: (event.target.id !== undefined || event.target.id !== "") ? event.target.id : undefined,
+				"name"			: (event.target.name !== undefined || event.target.name !== "") ? event.target.name : undefined,
+				"className"		: (event.target.className !== undefined || event.target.className !== "") ? event.target.className : undefined,
 				"dimension"		: "X = "+ event.target.getBoundingClientRect().x + ", Y = " + event.target.getBoundingClientRect().y,
-				"text"			: event.target.innerText,
+				"text"			: trimElementInnerTextContent(event.target.innerText),
 				"xpath"			: generateXpath(event)
 		};
+	}
+	function trimElementInnerTextContent(text){
+		var output = "";
+		if(text.length > 10) output = text.substring(0,9);
+		output = text.replace(/(\r\n\t|\t|\r|\n|[^a-zA-Z0-9 ])/g,'');
+		//console.info(output);
+		return output;
 	}
 
 //================================================================================================================
@@ -81,7 +90,7 @@
 		if ((msg.from === 'background') && (msg.subject === 'XPath')) {
 			// send this message to wherever you want
 			broadcastMessage(msg);
-			// Directly respond to the sender, through the specified callback 
+			// Directly respond to the sender, through the specified callback
 			sendResponse({'from':'injection', "message":"Message recieved."});
 		}
 	});
@@ -89,7 +98,7 @@
 //================================================================================================================
 // UTILITY/BROWSERs-API functions
 //================================================================================================================
-	
+
 
 	//Server-Network Call.
 	//---------------------------------------
@@ -101,18 +110,18 @@
 		xhr.setRequestHeader("Content-type", requestContentType); 			// SETTING REQUEST HEADER
 		xhr.send(null); 													// MAKING A REQUEST
 	}
-	
+
 //================================================================================================================
 // XPATH Generation
 // Do not touch here ...
 //================================================================================================================
 			function generateXpath(event) {
-				if (event===undefined) 
+				if (event===undefined)
 					event= window.event; // IE hack
-				var target= 'target' in event? 
+				var target= 'target' in event?
 					event.target : event.srcElement; // another IE hack
 
-				var root= document.compatMode==='CSS1Compat'? 
+				var root= document.compatMode==='CSS1Compat'?
 					document.documentElement : document.body;
 				var mxy= [event.clientX+root.scrollLeft, event.clientY+root.scrollTop];
 
@@ -144,13 +153,13 @@
 					//console.log("found element name");
 					return './/'+element.tagName+'[@name="'+element.name+'"]';
 				}
-				
+
 				//When element is body itself.
 				if (element===document.body) return element.tagName;
 
 				//Otherwise, iterate through all the element for linear traversal
 				if(element !== undefined){
-					
+
 					//Proceed only, when element hace its parent node and child of parent
 					if(element.parentNode && element.parentNode.childNodes){
 						var ix = 0;
@@ -159,7 +168,7 @@
 							//console.dir(element);
 							var sibling = siblings[i];
 							if (sibling===element) {
-								if (element.name && element.name!=='' && element.name!==undefined) 
+								if (element.name && element.name!=='' && element.name!==undefined)
 									return getXPath(element.parentNode) + '/' + element.tagName+ '[@name="'+element.name+'"]';
 								else
 									return getXPath(element.parentNode) + '/' + element.tagName+ '['+(ix+1)+']';
