@@ -13,6 +13,10 @@ var recStatus 	= 'OFF';
 var message 	= 'Not Recording !';
 var elementArray= [];
 
+// Angular Directives for the filter.
+// will be used to extract the property of an element.
+var angularDirectives = ["ng-bind","ng-click","ng-if","ng-model","ng-class","ng-href", "ng-submit", "ng-src", "ng-view","ng-show","ng-repeat","ng-checked","ng-change","ng-pattern","ng-required","ng-minlength","ng-maxlength"];
+
 // Properties
 // tagName, name, className, id, textContext, role, [with previous element]
 var data = {
