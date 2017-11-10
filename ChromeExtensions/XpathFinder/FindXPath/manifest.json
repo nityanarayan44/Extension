@@ -1,33 +1,40 @@
 {
-  "manifest_version": 3,
+    "manifest_version": 2,
 
-  "name": "XPath_Finder : NNG Experiments",
-  "description": "This extension shows a XPATH along with few more details for the current page",
-  "version": "1.0",
+    "name": "XPath_Finder : NNG Experiments",
+    "description": "This extension shows a XPATH along with few more details for the current page",
+    "version": "1",
 
-  "browser_action": {
-      "default_title":"XPath Finder",
-      "default_icon": "icon.png",
-      "default_popup": "popup.html"
-  },
-  
-  "background": {
-      "persistent": false,
-      "scripts": ["background.js"]
-  },
-  
-  "content_scripts" : [
-		{
-			"matches": ["*://*/*"],
-			"js": ["injection.js"]
-		}
-  ],
-  
-  "permissions": [
-      "alarms",
-      "tabs",
-      "activeTab",
-      "webNavigation",
-      "*://*/*"
-  ]
+    "web_accessible_resources": [
+        "images/*.png",
+        "style/*.css",
+        "script/background.js",
+        "script/popup.js"
+    ],
+
+    "browser_action": {
+        "default_title":"XPath Finder",
+        "default_icon": "images/icon.png",
+        "default_popup": "popup.html"
+    },
+
+    "background": {
+        "persistent": false,
+        "scripts": ["script/background.js"]
+    },
+
+    "content_scripts" : [
+        {
+            "matches": ["*://*/*"],
+            "js": ["script/injection.js"]
+        }
+    ],
+
+    "permissions": [
+        "alarms",
+        "tabs",
+        "activeTab",
+        "webNavigation",
+        "*://*/*"
+    ]
 }

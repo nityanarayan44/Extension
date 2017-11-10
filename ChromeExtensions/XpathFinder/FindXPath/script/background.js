@@ -25,9 +25,9 @@ var data = {
 	"className"	: "",
 	"text"		: "",
 	"xpath"		: "",
-	"xpath_Suggestions"	: "",
 	"id"		: "",
-	"dimension"	: ""
+	"dimension"	: "",
+	"xpath_Suggestions": ""
 };
 
 

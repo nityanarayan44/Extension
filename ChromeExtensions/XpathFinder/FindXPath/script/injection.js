@@ -49,26 +49,43 @@
 		// Now what we can do is, just register an event to the all elements avaiable in DOM
 		makeCall( encodeURIComponent({"step":"1", "timeStamp": getTimeStamp(), "navigatedTo" : getUrl()}) );
 	});*/
-	// Ready to insert the script, when DOM is loaded.
-		/*document.addEventListener('DOMContentLoaded', function() {
-			console.log('started...');
-			// Set the initial recording status.
-			renderStatus();
 
-			//getting buttons and then setting/registering click event for them.
+	// Ready to insert the script, when DOM is loaded.
+		/*
+		document.addEventListener('DOMContentLoaded', function() {
+			console.log('started...');
+			console.log("Event Registered...");
+
+			// TARGETED REGISTRATION
+			// getting buttons and then setting/registering click event for them.
+			
 			var btns = document.querySelectorAll('button or from above mentioned elements');
 			for (var i = 0; i < btns.length; i++) {
 				btns[i].addEventListener('click', click);
 			}
-
 		});*/
 
 	// Register an Event for Click.
-	//listening for click events.
-	window.addEventListener('click', function(event) {
-		console.log("[Injection] Current Element "+ event.target.tagName);
-		broadcastMessage( getElementInfo(event) );
-	});
+	// listening for click and mousedown events.
+		document.addEventListener('mousedown', function (event) {
+			console.log("[Injection] Current Element " + event.target.tagName);
+			broadcastMessage(getElementInfo(event));
+			// Stop further click event bubles.
+			event.stopPropagation();
+		}, false);
+	
+
+		document.addEventListener('click', function (event) {
+			console.log("[Injection] Current Element " + event.target.tagName);
+			broadcastMessage(getElementInfo(event));
+			// Stop further click event bubles.
+			event.stopPropagation();
+		}, false);
+
+		/*window.addEventListener('click', function (event) {
+			console.log("[Injection] Current Element " + event.target.tagName);
+			broadcastMessage(getElementInfo(event));
+		});*/
 
 	//get element info
 	function getElementInfo(event) {

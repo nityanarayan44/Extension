@@ -1,118 +1,23 @@
 <!doctype html>
 <!--
- This page is shown when the extension button is clicked, because the
- "browser_action" field in manifest.json contains the "default_popup" key with
- value "popup.html".
+    @Author : Ashutosh Mishra
+    @Version: ProtoType-B
+    @desc   : This page is shown when the extension button is clicked, because the
+    "browser_action" field in manifest.json contains the "default_popup" key with
+    value "popup.html".
  -->
 <html>
-  <head>
-    <title>Getting Started Extension's Popup</title>
-    <style>
-      body {
-        font-family: Roboto, "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-        font-size: 100%;
-        margin: 0px;
-        left: -5px;
-        right: -5px;
-        background-color: lightgrey
-      }
-      .HeaderTitle {
-          cursor: pointer;
-          left: -10px; right: -10px;
-          padding: 5px;
-          background-color: darkcyan;
-          color: lightgrey;
-          font-family: roboto, Calibri;
-          font-size: 3em;
-
-          /* For the text selection */
-          -webkit-touch-callout: none; /* iOS Safari */
-            -webkit-user-select: none; /* Safari */
-             -khtml-user-select: none; /* Konqueror HTML */
-               -moz-user-select: none; /* Firefox */
-                -ms-user-select: none; /* Internet Explorer/Edge */
-                    user-select: none; /* Non-prefixed version, currently
-                                          supported by Chrome and Opera */
-      }
-      td {
-         border-style: none;
-         border-top-width: 1px;
-         border-top-style: dashed;
-      }
-      table {
-          box-shadow: 0 1px 3px 10px rgba(0, 0, 0, 0.5);
-      }
-
-      #status {
-        /* avoid an excessively wide status text */
-        white-space: pre;
-        overflow: hidden;
-		overflow-x: scroll;
-		font-size: 1em;
-        border-bottom-width: 3px;
-        min-width: 450px;
-        max-width: 500px;
-		/*text-overflow: ellipsis;*/
-      }
-        /* For the scfollbar */
-        #status::-webkit-scrollbar-track
-        {
-        	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-            background-color: #F5F5F5;
-        }
-
-        #status::-webkit-scrollbar
-        {
-            height: 3px;
-            background-color: #F5F5F5;
-        }
-
-        #status::-webkit-scrollbar-thumb
-        {
-            background-color: #000000;
-        }
-
-        /**/
-        #clearDataLink {
-            color: rgba(0, 0, 0, 0.1);
-        }
-        #clearDataLink:hover {
-            color: rgba(0, 179, 179, 0.9);
-        }
-        /*in case no data*/
-        .box1{
-				border-width:2px;
-				border-color:darkred;
-				border-radius:3px;
-				border-style:solid;
-				height: 200px;
-				width:70%;
-				font-size:0.9em;
-				font-color:darkcyan;
-		}
-        .box1_base {
-            width:150px; height:30px;
-            margin-top:-20px;
-            border-radius:30px;
-            border-color:darkred;
-            border-width:2px;
-            border-style:solid;
-            border-bottom-width:7px;
-            border-bottom-color:darkgray;
-        }
-        .box1_base:hover {
-            background-color: darkgray;
-        }
-    </style>
-
-    <!--
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      -
-      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
-     -->
-    <script src="popup.js"></script>
-  </head>
+    <head>
+        <title>Getting Started Extension's Popup</title>
+        <!--
+        - JavaScript and HTML must be in separate files: see our Content Security
+        - Policy documentation[1] for details and explanation.
+        -
+        - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
+        -->
+        <link rel="stylesheet" href="style/global.css">
+        <script src="script/popup.js"></script>
+    </head>
   <body>
 		<!-- popup UI control structure -->
 						<div id="controls">
