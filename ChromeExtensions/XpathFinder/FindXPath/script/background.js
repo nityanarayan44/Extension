@@ -58,11 +58,11 @@ var data = {
 			//console.dir(msg);
 			data.element= msg.data.element;
 			data.name 	= msg.data.name;
-			data.className=msg.data.className;
 			data.text 	= msg.data.text;
 			data.xpath 	= msg.data.xpath;
 			data.id		= msg.data.id;
-			data.dimension= msg.data.dimension;
+			data.className = msg.data.className;
+			data.dimension = msg.data.dimension;
 			// XPath suggestions based on the data object.
 			data.xpath_Suggestions = suggetionsXPath(data);
 

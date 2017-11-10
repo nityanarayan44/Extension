@@ -1,9 +1,9 @@
 /*
- * @ Author: Ashutosh Mishra, NNG Experiments.
- * @ Version 1
- * @ XPath Finder/Genearator
+ * @Author: Ashutosh Mishra, NNG Experiments.
+ * @Version 1
+ * @XPath Finder/Genearator
  * @Started 25 AUG 2017
- * @ Modified 08 Nov 2017 [Prototype-1 Ready October-2017][Prototype-2 Ready 08-November-2017]
+ * @Modified 08 Nov 2017 [Prototype-1 Ready October-2017][Prototype-2 Ready 08-November-2017]
  * @license : MIT License 2017
  * Use of this source code is open
  **/
@@ -53,19 +53,25 @@
 	// Registering Events
 	// Adding listener for click and mousedown events.
 		document.addEventListener('mousedown', function (event) {
-			console.log("[Injection] Current Element " + event.target.tagName);
 			broadcastMessage(getElementInfo(event));
-			// Stop further click event bubles.
+			// Stop further mousedown event bubles.
 			event.stopPropagation();
+			//Show injection log
+			showInjectionLog("[Injection] Current Element " + event.target.tagName);
 		}, false);
-	
 
 		document.addEventListener('click', function (event) {
-			console.log("[Injection] Current Element " + event.target.tagName);
 			broadcastMessage(getElementInfo(event));
 			// Stop further click event bubles.
 			event.stopPropagation();
+			// Show injection log
+			showInjectionLog("[Injection] Current Element " + event.target.tagName);
 		}, false);
+
+	// Log the injection with some message
+	function showInjectionLog(logMsg){
+		console.info(logMsg);
+	}
 
 	//get element info
 	function getElementInfo(event) {
