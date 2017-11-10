@@ -69,13 +69,13 @@ var data = {
 
 		if(data.element !== undefined && data.element !== "" ){
 			document.getElementById('noData').innerHTML = '';
-			document.getElementById('status').innerHTML = '<table cellspacing="0" border="1" cellpadding="2" title="Always shows the last element data."><thead><tr><th width="20%">Property</th><th align="left">Value</th></tr></thead><tbody>' +
-														 '<tr><td width="20%" align="right"> Id: </td><td> ' 		+ data.id 	+ '</td></tr>' +
-														 '<tr><td width="20%" align="right"> Name: </td><td> ' 		+ data.name + '</td></tr>' +
-														 '<tr><td width="20%" align="right"> ClassName: </td><td> ' + data.className+ '</td></tr>' +
-														 '<tr><td width="20%" align="right"> Element: </td><td> ' 	+ data.element 	+ '</td></tr>' +
-														 '<tr><td width="20%" align="right"> Dimensions: </td><td> '+ data.dimension+ '</td></tr>' +
-														 '<tr><td width="20%" align="right" title="Considered first 10 charecters of innerText."> InnerText: </td><td> ' + data.text + '</td></tr>' +
+			document.getElementById('status').innerHTML = '<table cellspacing="0" border="1" cellpadding="2" title="Always shows the last element data."><thead><tr><th width="150px">Property</th><th align="left">Value</th></tr></thead><tbody>' +
+														 '<tr><td width="150px" align="right"> Id: </td><td> ' 		+ data.id 	+ '</td></tr>' +
+														 '<tr><td width="150px" align="right"> Name: </td><td> ' 		+ data.name + '</td></tr>' +
+														 '<tr><td width="150px" align="right"> ClassName: </td><td> ' + data.className+ '</td></tr>' +
+														 '<tr><td width="150px" align="right"> Element: </td><td> ' 	+ data.element 	+ '</td></tr>' +
+														 '<tr><td width="150px" align="right"> Dimensions: </td><td> '+ data.dimension+ '</td></tr>' +
+														 '<tr><td width="150px" align="right" title="Considered first 10 charecters of innerText."> InnerText: </td><td> ' + data.text + '</td></tr>' +
 														 '<tr><td colspan="2" title="These XPath Suggestions are just for the further consideration.">' +
 														 	' <u>Default Absolute XPath:</u>  ' + data.xpath + '<br/><br/>' +
 															' <u>XPath Suggestions:</u> <br/> ' + data.xpath_Suggestions + '' +
