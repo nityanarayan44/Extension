@@ -11,14 +11,14 @@
 //================================================================================================================
 // GLOBAL SETUP
 //================================================================================================================
-	var serverPort				= '8080';
-	var requestMethod			= 'GET';
-	var requestContentType= 'text/plain';
+	var serverPort			= '8080';
+	var requestMethod		= 'GET';
+	var requestContentType	= 'text/plain';
 	var serverAPIAddress 	= 'http://127.0.0.1:8080/parameters?foo=';
 
 	//Element for holding values.
-	var elements					= 'A, INPUT, TEXTAREA, BUTTON, CHECKBOX, RADIO, OPTION, DIV, SPAN, LI, OL, UL, P';
-	var inputType					= "button,checkbox,color,date,datetime-local,email,file,hidden,image,month,number,password,radio,range,reset,search,submit,tel,text,time,url,week";
+	var elements			= 'A, INPUT, TEXTAREA, BUTTON, CHECKBOX, RADIO, OPTION, DIV, SPAN, LI, OL, UL, P';
+	var inputType			= "button,checkbox,color,date,datetime-local,email,file,hidden,image,month,number,password,radio,range,reset,search,submit,tel,text,time,url,week";
 	var typableElements		= 'INPUT, TEXTAREA';
 	var booleanElements		= 'RADIO, CHECKBOX';
 	var dropdownElements	= 'OPTION, SELECT';
@@ -28,13 +28,13 @@
 // UTILITY/BROWSERs-API functions
 //================================================================================================================
 
-	//---------------------------------------
+
 	//Server-Network Call.
 	//---------------------------------------
 	function makeCall(stringObj){
-		var xhr 			= new XMLHttpRequest();		 						// OBJECT CREATION
+		var xhr 		= new XMLHttpRequest();		 						// OBJECT CREATION
 		xhr.onerror 	= function(err)  { console.log('Error Occured'); }; // HANDLE AFTER XHR CALL
-		xhr.onsuccess = function(data) { console.dir(data); }; 			// HANDLE AFTER XHR CALL
+		xhr.onsuccess 	= function(data) { console.dir(data); }; 			// HANDLE AFTER XHR CALL
 		xhr.open(requestMethod, serverAPIAddress+stringObj); 				// OPENINGN REQUEST CONNECTION
 		xhr.setRequestHeader("Content-type", requestContentType); 			// SETTING REQUEST HEADER
 		xhr.send(null); 													// MAKING A REQUEST
@@ -63,47 +63,31 @@
 
 		});*/
 
-	//---------------------------------------
 	// Register an Event for Click.
 	//listening for click events.
-	//---------------------------------------
 	window.addEventListener('click', function(event) {
 		console.log("[Injection] Current Element "+ event.target.tagName);
 		broadcastMessage( getElementInfo(event) );
 	});
 
-	//---------------------------------------
 	//get element info
-	//---------------------------------------
 	function getElementInfo(event) {
 		// some specific properties
 		//console.log(">>>> " + typeof event.target.id + ", " + event.target.className+ ", " +event.target.name);
 		return {
 				"element"		: event.target.tagName,
-				"id"				: (event.target.id !== undefined || event.target.id !== "") ? event.target.id : undefined,
+				"id"			: (event.target.id !== undefined || event.target.id !== "") ? event.target.id : undefined,
 				"name"			: (event.target.name !== undefined || event.target.name !== "") ? event.target.name : undefined,
-				"className"	: (event.target.className !== undefined || event.target.className !== "") ? event.target.className : undefined,
-				"dimension"	: "X = "+ event.target.getBoundingClientRect().x + ", Y = " + event.target.getBoundingClientRect().y,
+				"className"		: (event.target.className !== undefined || event.target.className !== "") ? event.target.className : undefined,
+				"dimension"		: "X = "+ event.target.getBoundingClientRect().x + ", Y = " + event.target.getBoundingClientRect().y,
 				"text"			: trimElementInnerTextContent(event.target.innerText),
 				"xpath"			: generateXpath(event)
 		};
 	}
-
-	//---------------------------------------
 	// trim the text. Considering max length = 10
-	//---------------------------------------
 	function trimElementInnerTextContent(text){
 		var output = "";
-
-		//TODO:
-		//IMPROVEMENT:
-		//QUESTION: Improvement; i think only few starting text should be included.
-		//But i do so then text()="<Few_text_goes_here>" will fail because it does exact match.
-		//BUG: Currently it is a bug, i found in Chromium[Ubuntu 16.04]
-		//Problem calculating length in some cases.
-		//SOLUTION: Currently i am Commenting this line.
-			//if(text.length > 10) output = text.substring(0,9);
-
+		if(text.length > 10) output = text.substring(0,9);
 		output = text.replace(/(\r\n\t|\t|\r|\n|[^a-zA-Z0-9 ])/g,'');
 		return output;
 	}
@@ -137,61 +121,66 @@
 // Do not touch here ...
 //================================================================================================================
 
-		//---------------------------------------
 		// Initiating XPath function trail call
 		// generateXpath => getAbsPath => getXPath[with Resursion]
-		//---------------------------------------
 		function generateXpath(event) {
-																	// Proceed with check.
-																	if (event===undefined) event= window.event; // IE hack
-																	var target = 'target' in event ? event.target : event.srcElement; // another IE hack
-																	var root = document.compatMode==='CSS1Compat' ? document.documentElement : document.body;
+			if (event===undefined)
+				event= window.event; // IE hack
+			var target= 'target' in event?
+				event.target : event.srcElement; // another IE hack
 
-																	// Return the xpath, and if not contains the .// then add beefore returning.
-																	return ((getAbsPath(target)).indexOf(".//") ? ".//"+ getAbsPath(target) : getAbsPath(target));
+			var root= document.compatMode==='CSS1Compat'?
+				document.documentElement : document.body;
+			var mxy= [event.clientX+root.scrollLeft, event.clientY+root.scrollTop];
+
+			// Return the xpath, and if not contains the .// then add beefore returning.
+			return ((getAbsPath(target)).indexOf(".//") ? ".//"+ getAbsPath(target) : getAbsPath(target));
 		}// End of function
 
-		//---------------------------------------
 		// Sending an element to get an absolute xpath.
-		//---------------------------------------
 		function getAbsPath(element) {
-																// Iterate through all the element for linear traversal
-																if(element !== undefined){
-																				var ix = 0;
-																				var siblings= element.parentNode.childNodes;
-																				for (var i= 0; i<siblings.length; i++) {
-																								var sibling= siblings[i];
-																								if (sibling===element) return getXPath(element.parentNode)+'/'+element.tagName+'['+(ix+1)+']';
-																								if (sibling.nodeType===1 && sibling.tagName===element.tagName) ix++;
-																				}// End of for
-																}// End of if
+			// Iterate through all the element for linear traversal
+			if(element !== undefined){
+				var ix = 0;
+				var siblings= element.parentNode.childNodes;
+				for (var i= 0; i<siblings.length; i++) {
+					var sibling= siblings[i];
+					if (sibling===element)
+						return getXPath(element.parentNode)+'/'+element.tagName+'['+(ix+1)+']';
+					if (sibling.nodeType===1 && sibling.tagName===element.tagName)
+						ix++;
+				}// End of for
+			}// End of if
 		}// End of function
 
-		//---------------------------------------
 		// Calculating XPath for the prvided element
-		//---------------------------------------
 		function getXPath(element){
-															//When element is having a name.
-															if (element.name && element.name!=='' && element.name!==undefined) return './/'+element.tagName+'[@name="'+element.name+'"]';
+			//When element is having a name.
+			if (element.name && element.name!=='' && element.name!==undefined)
+				return './/'+element.tagName+'[@name="'+element.name+'"]';
 
-															//When element is body itself.
-															if (element===document.body) return element.tagName;
+			//When element is body itself.
+			if (element===document.body) return element.tagName;
 
-															//Otherwise, iterate through all the element for linear traversal
-															if(element !== undefined){
-																								//Proceed only, when element hace its parent node and child of parent
-																								if(element.parentNode && element.parentNode.childNodes){
-																																var ix = 0;
-																																var siblings = element.parentNode.childNodes;
-																																for (var i = 0; i<siblings.length; i++) {
-																																						//console.dir(element);
-																																						var sibling = siblings[i];
-																																						if (sibling===element) {
-																																									if (element.name && element.name!=='' && element.name!==undefined) return getXPath(element.parentNode) + '/' + element.tagName+ '[@name="'+element.name+'"]';
-																																									else return getXPath(element.parentNode) + '/' + element.tagName+ '['+(ix+1)+']';
-																																						}
-																																						if (sibling.nodeType===1 && sibling.tagName===element.tagName) ix++;
-																																}//End of for
-																								}//End of if
-															}// End of if
+			//Otherwise, iterate through all the element for linear traversal
+			if(element !== undefined){
+
+				//Proceed only, when element hace its parent node and child of parent
+				if(element.parentNode && element.parentNode.childNodes){
+					var ix = 0;
+					var siblings = element.parentNode.childNodes;
+					for (var i = 0; i<siblings.length; i++) {
+						//console.dir(element);
+						var sibling = siblings[i];
+						if (sibling===element) {
+							if (element.name && element.name!=='' && element.name!==undefined)
+								return getXPath(element.parentNode) + '/' + element.tagName+ '[@name="'+element.name+'"]';
+							else
+								return getXPath(element.parentNode) + '/' + element.tagName+ '['+(ix+1)+']';
+						}
+						if (sibling.nodeType===1 && sibling.tagName===element.tagName)
+							ix++;
+					}//End of for
+				}//End of if
+			}// End of if
 		}// End of function
