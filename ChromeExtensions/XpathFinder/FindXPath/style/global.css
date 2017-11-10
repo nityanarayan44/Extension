@@ -1,7 +1,9 @@
+/* iMPORT THE ROBOTO FONT FROM GOOGLE */
+@import url('https://fonts.googleapis.com/css?family=Roboto:100');
 
     body {
-        font-family: Roboto, "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-        font-size: 100%;
+        font-family: 'Roboto', sans-serif;
+        font-size: 1em;
         margin: 0px;
         left: -5px;
         right: -5px;
@@ -14,9 +16,12 @@
         right: -10px;
         padding: 5px;
         background-color: darkcyan;
+        
+        /*For the Font*/
+        font-family: 'Roboto', sans-serif;
+        font-size: 3rem;
         color: lightgrey;
-        font-family: roboto, Calibri;
-        font-size: 3em;
+
         /* For the text selection */
         -webkit-touch-callout: none;
         /* iOS Safari */
@@ -29,8 +34,7 @@
         -ms-user-select: none;
         /* Internet Explorer/Edge */
         user-select: none;
-        /* Non-prefixed version, currently
-                                          supported by Chrome and Opera */
+        /* Non-prefixed version, currently supported by Chrome and Opera */
     }
 
     td {
@@ -47,8 +51,10 @@
         /* avoid an excessively wide status text */
         white-space: pre;
         overflow: hidden;
+        font-family: inherit;
         overflow-x: scroll;
         font-size: 1em;
+        font-weight: bold;
         border-bottom-width: 3px;
         min-width: 450px;
         max-width: 500px;
@@ -57,7 +63,7 @@
     /* For the scfollbar */
 
     #status::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
         background-color: #F5F5F5;
     }
 
@@ -88,7 +94,8 @@
         height: 200px;
         width: 70%;
         font-size: 0.9em;
-        font-color: darkcyan;
+        font-weight: lighter;
+        color: darkcyan;
     }
 
     .box1_base {
