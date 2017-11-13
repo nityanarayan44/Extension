@@ -13,5 +13,5 @@
 |											|
 +-------------------------------------------+
 
-
+Current Indentation is 4 space.
 ReadMe to use this Chrome Extension.
