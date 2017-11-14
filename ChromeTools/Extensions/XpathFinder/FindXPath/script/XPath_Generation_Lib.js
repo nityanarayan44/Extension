@@ -9,7 +9,7 @@ var nngXPath = (function () {
     // Using resttriction
     'use strict';
 
-    // this function is strict...
+    // Following strict policy from below...
     var xpath = {
                 //==========================================================
                 // Spares function
