@@ -90,6 +90,8 @@ var data = {
 	 **/
 	function suggetionsXPath(obj){
 		var sugg = "";
+		//TODO:  ' => \"
+		//TODO:
 		if(obj !== undefined && obj !== null ){
 			// Suggestions based on ID
 			sugg += ( obj.id !== "" && obj.id !== undefined) ? ("//*[@id='"+ obj.id +"'] <br/> //*[contains(@id,'"+ obj.id +"')] <br/>") : "" ;
@@ -98,7 +100,7 @@ var data = {
 			sugg += ( obj.name !== "" && obj.name !== undefined) ? (" //*[@name='"+ obj.name +"'] <br/> //*[contains(@name,'"+ obj.name +"')] <br/>") : "" ;
 
 			// Suggestion based on className
-			sugg += ( obj.className !== "" && obj.className !== undefined) ? (" //*[@class='"+ obj.className +"'] <br/> //*[contains(@class,'"+ obj.className +"')] <br/>") : "" ;
+			sugg += ( obj.className !== "" && obj.className !== undefined) ? (" //*[@class='"+ obj.className +"'] <br/> //*[contains(@class,\""+ obj.className +"\")] <br/>") : "" ;
 
 			// Suggestion based on innerText
 			sugg += ( obj.text !== "" && obj.text !== undefined) ? (" //*[text()='"+ obj.text +"'] <br/> //*[contains(text(),'"+ obj.text +"')] <br/>") : "" ;

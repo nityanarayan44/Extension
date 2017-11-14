@@ -9,14 +9,14 @@ var nngXPath = (function () {
     // Using resttriction
     'use strict';
 
-    // Following strict policy from below...
+    // Following strict policy from here...
     var xpath = {
                 //==========================================================
                 // Spares function
                 //==========================================================
                 //
                 // generateAbsXPath
-                validateEventObjectThenProceed : function (event) {
+                validateEventObjectThenProceed: function (event) {
                     //Validate event object, and if found any problem then throw an exception
                     if (event === undefined) {event = window.event; /* IE hack */} else { throw new Exception('[validateEventObjectThenProceed Module] : passed event object is undefined.'); }
 
@@ -28,7 +28,7 @@ var nngXPath = (function () {
                 },
 
                 //process all the nodes
-                processNodes : function(element) {
+                processNodes: function(element) {
                     // Iterate through all the element for linear traversal
                     if(element !== undefined){
                         var ix = 0; var siblings= element.parentNode.childNodes;
@@ -42,7 +42,7 @@ var nngXPath = (function () {
                 },
 
                 // Now, calculate the xpath
-                absXpathCalculation : function (element) {
+                absXpathCalculation: function (element) {
 
                         //When element is body itself.
                         if (element !== undefined && element === document.body) return element.tagName;
@@ -76,16 +76,16 @@ var nngXPath = (function () {
                 //==========================================================
 
                 // 1: getting absolute XPath.
-                getAbsXPath : function(event) {
+                getAbsXPath: function(event) {
                     // returning final output
                     return validateEventObjectThenProceed(event);
                 },
 
                 // 2: getting XPath, generated from Robula algorithm.
-                getRobulaXpath : function (element) { return ''; },
+                getRobulaXpath: function (element) { return ''; },
 
                 // 3: getting XPath Suggestions [further xpath possibilities]
-                getXPathSuggestion : function (obj) {
+                getXPathSuggestion: function (obj) {
                     var sugg = "";
                     if(obj !== undefined && obj !== null ){
                         // Suggestions based on ID

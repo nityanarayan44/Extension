@@ -51,25 +51,29 @@
 	});*/
 
 	// Registering Events
-	// Adding listener for click and mousedown events.
+	// Adding listener for click events.
+		// document.addEventListener('click', function (event) {
+		// 	broadcastMessage(getElementInfo(event));
+		// 	// Stop further click event bubles.
+		// 	event.stopPropagation();
+		// 	// Show injection log
+		// 	showInjectionLog("[Injection] Current Element " + event.target.tagName);
+		// }, false);
+
+	// Adding listener for mousedown events.
 		document.addEventListener('mousedown', function (event) {
 			broadcastMessage(getElementInfo(event));
 			// Stop further mousedown event bubles.
 			event.stopPropagation();
-			//Show injection log
-			showInjectionLog("[Injection] Current Element " + event.target.tagName);
-		}, false);
-
-		document.addEventListener('click', function (event) {
-			broadcastMessage(getElementInfo(event));
-			// Stop further click event bubles.
-			event.stopPropagation();
 			// Show injection log
 			showInjectionLog("[Injection] Current Element " + event.target.tagName);
+			// Highlight at the time of mousedown
+			//event.target.style = "border-width: 5px; border-style: dotted; border-color: red; ";
 		}, false);
 
 	// Log the injection with some message
 	function showInjectionLog(logMsg){
+
 		console.info(logMsg);
 	}
 
@@ -84,14 +88,19 @@
 				"className"		: (event.target.className !== undefined || event.target.className !== "") ? event.target.className : undefined,
 				"dimension"		: "X = "+ event.target.getBoundingClientRect().x + ", Y = " + event.target.getBoundingClientRect().y,
 				"text"			: trimElementInnerTextContent(event.target.innerText),
+				//TODO: Add flag for cpath processing.
 				"xpath"			: generateXpath(event)
 		};
 	}
 	// trim the text. Considering max length = 10
 	function trimElementInnerTextContent(text){
-		var output = "";
+		var output = text;
+		//var flag = (!text.contains("\n")) ? "text" : "contains";
+		//var symbols= "%&*-#.......";
 		if(text.length > 10) output = text.substring(0,9);
-		output = text.replace(/(\r\n\t|\t|\r|\n|[^a-zA-Z0-9 ])/g,'');
+		//output = text.replace(/(\r\n\t|\t|\r|\n|[^a-zA-Z0-9 "])/g,'');
+		//
+		//output = text.replace(/(["])/g,'\"');
 		return output;
 	}
 
