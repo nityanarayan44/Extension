@@ -17,4 +17,4 @@ Current Indentation is 4 space.
 ReadMe to use this Chrome Extension.
 
 #Images
-![Extension app image](Xpath/0.png "this image shows the appearence for the extension application.")
+![Extension app image](XPF_ScreenShots/0.png "this image shows the appearence for the extension application.")
