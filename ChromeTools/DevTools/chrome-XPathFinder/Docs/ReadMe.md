@@ -17,4 +17,4 @@
 
 
 # Refer this image for better understanding
-!(./Core_01.png)
+![Image for devtool extension understanding](Core_01.png "devtool extension")
