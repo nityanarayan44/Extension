@@ -17,4 +17,4 @@
 
 
 # Refer this image for better understanding
-![../Core_01.png]
+!(./Core_01.png)
