@@ -73,7 +73,6 @@
 
 	// Log the injection with some message
 	function showInjectionLog(logMsg){
-
 		console.info(logMsg);
 	}
 
@@ -88,19 +87,19 @@
 				"className"		: (event.target.className !== undefined || event.target.className !== "") ? event.target.className : undefined,
 				"dimension"		: "X = "+ event.target.getBoundingClientRect().x + ", Y = " + event.target.getBoundingClientRect().y,
 				"text"			: trimElementInnerTextContent(event.target.innerText),
-				//TODO: Add flag for cpath processing.
+				//TODO: Add flag for xpath processing[text() or contains()].
+				//TODO: xpath: generateXpath(event)
 				"xpath"			: generateXpath(event)
 		};
 	}
 	// trim the text. Considering max length = 10
 	function trimElementInnerTextContent(text){
 		var output = text;
-		//var flag = (!text.contains("\n")) ? "text" : "contains";
+		//var indexOfNewLine = text.indexOf("\n");
+		//var flag = (!text.indexOf("\n")) ? "text" : "contains";
 		//var symbols= "%&*-#.......";
 		if(text.length > 10) output = text.substring(0,9);
-		//output = text.replace(/(\r\n\t|\t|\r|\n|[^a-zA-Z0-9 "])/g,'');
-		//
-		//output = text.replace(/(["])/g,'\"');
+		output = text.replace(/(\r\n\t|\t|\r|\n|[^a-zA-Z0-9 "])/g,'');
 		return output;
 	}
 
