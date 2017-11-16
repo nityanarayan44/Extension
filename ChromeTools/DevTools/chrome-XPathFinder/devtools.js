@@ -7,7 +7,7 @@
  * @license : MIT License 2017
  * Use of this source code is open
  **/
- 
+
 // The function below is executed in the context of the inspected page.
 // var page_getProperties = function() {
 //         var data = window.jQuery && $0 ? jQuery.data($0) : {};
@@ -19,51 +19,51 @@
 //         copy[props[i]] = data[props[i]];
 //         return copy;
 // }
-// Sample Object to be shown.
-// {
-//     title: "XPath for the selected Object",
-//     selectedElement: "",
-//     elementAttributes: ""
-// }
 
 // It will collect all the data.
 var dataObj = {
-    "tagName": "",
-    "innerText": "",
-    "attributeKeys": "",
-    "attributeData": "",
-    "parentNode":"",
-    "firstChildNode":"",
-    "nextSiblingNode":""
+    "tagName" : "",
+    "innerText" : "",
+    "attributeKeys" : "",
+    "attributeData" : "",
+    "parentNode" : "",
+    "firstChildNode" : "",
+    "nextSiblingNode" : ""
 };
 
-var getXPathSuggestionsList = function(eleName, eleAttribs, eleInnerText) {
+var getXPathSuggestionsList = function (eleName, eleAttribs, eleInnerText) {
     var xpList = [];
     // Process the attribs.
-    if(eleAttribs.length > 0){
+    if (eleAttribs.length > 0) {
         xpList.push('You could also combine or modify these suggestions to build your own solid XPath.');
-        eleAttribs.map(function(attribute){ xpList.push('//*['+attribute+']  or  //'+ eleName+'['+attribute+']'); });
-        if(eleInnerText.indexOf("\n") !== -1) { xpList.push("//*[contains(text(), '"+(eleInnerText.replace(/(\r\n\t|\t|\r|\n|)/g,'')).substring(0, ((eleInnerText.length>9)? 9 : (eleInnerText.length/2)+1))+"')]  or  //" + eleName + "[contains(text(), '"+(eleInnerText.replace(/(\r\n\t|\t|\r|\n|)/g,'')).substring(0, ((eleInnerText.length>9)? 9 : eleInnerText.length/2))+"')]") ; }else { xpList.push("//*[text()='"+eleInnerText+"']  or  //"+eleName+"[text()='"+eleInnerText+"']"); }
-    }
-    else if(eleInnerText.length > 0) {
+        eleAttribs.map(function (attribute) { xpList.push('//*[' + attribute + ']  or  //' + eleName + '[' + attribute + ']'); });
+        if (eleInnerText.indexOf("\n") !== -1) {
+                xpList.push("//*[contains(text(), '" + (eleInnerText.replace(/(\r\n\t|\t|\r|\n|)/g, '')).substring(0, ((eleInnerText.length > 9) ? 9 : (eleInnerText.length / 2) + 1)) + "')]  or  //" + eleName + "[contains(text(), '" + (eleInnerText.replace(/(\r\n\t|\t|\r|\n|)/g, '')).substring(0, ((eleInnerText.length > 9) ? 9 : eleInnerText.length / 2)) + "')]");
+        } else {
+                xpList.push("//*[text()='" + eleInnerText + "']  or  //" + eleName + "[text()='" + eleInnerText + "']");
+        }
+    } else if (eleInnerText.length > 0) {
         xpList.push('You could also combine or modify these suggestions to build your own solid XPath.');
-        if(eleInnerText.indexOf("\n") !== -1) { xpList.push("//*[contains(text(), '"+(eleInnerText.replace(/(\r\n\t|\t|\r|\n|)/g,'')).substring(0, ((eleInnerText.length>9)? 9 : (eleInnerText.length/2)+1))+"')]  or  //" + eleName + "[contains(text(), '"+(eleInnerText.replace(/(\r\n\t|\t|\r|\n|)/g,'')).substring(0, ((eleInnerText.length>9)? 9 : eleInnerText.length/2))+"')]") ; }else { xpList.push("//*[text()='"+eleInnerText+"']  or  //"+eleName+"[text()='"+eleInnerText+"']"); }
-    }
-    else {xpList.push('Found no suggestion based on Element itself');}
+        if (eleInnerText.indexOf("\n") !== -1) {
+                xpList.push("//*[contains(text(), '" + (eleInnerText.replace(/(\r\n\t|\t|\r|\n|)/g, '')).substring(0, ((eleInnerText.length > 9) ? 9 : (eleInnerText.length / 2) + 1)) + "')]  or  //" + eleName + "[contains(text(), '" + (eleInnerText.replace(/(\r\n\t|\t|\r|\n|)/g, '')).substring(0, ((eleInnerText.length > 9) ? 9 : eleInnerText.length / 2)) + "')]");
+        } else {
+                xpList.push("//*[text()='" + eleInnerText + "']  or  //" + eleName + "[text()='" + eleInnerText + "']");
+        }
+    } else { xpList.push('Found no suggestion based on Element itself'); }
     // return the outcome.
     return xpList;
 };
 
 var updatePanelWithData = function () {
-    return {
-        '0_Current': dataObj.tagName,
-        '1_Attribs': JSON.stringify(dataObj.attributeKeys),
-        '2_ParentNode'      : dataObj.parentNode,
-        '3_FirstSiblingNode': dataObj.nextSiblingNode,
-        '4_FirstChildNode'  : dataObj.firstChildNode,
-        'XPath'             : getXPathSuggestionsList(dataObj.tagName, dataObj.attributeData, dataObj.innerText)
-        /*"_dump"    : dataObj*/
-    };
+        return {
+                '0_Current'             : dataObj.tagName,
+                '1_Attribs'             : JSON.stringify(dataObj.attributeKeys),
+                '2_ParentNode'          : dataObj.parentNode,
+                '3_FirstSiblingNode'    : dataObj.nextSiblingNode,
+                '4_FirstChildNode'      : dataObj.firstChildNode,
+                'XPath'                 : getXPathSuggestionsList(dataObj.tagName, dataObj.attributeData, dataObj.innerText)
+                /*"_dump"    : dataObj*/
+        };
 };
 
 //===============================================
@@ -72,7 +72,7 @@ var updatePanelWithData = function () {
 chrome.devtools.panels.create("XPath Finder",
   "icon.png",
   "panel.html",
-  function(extensionPanel) {
+  function (extensionPanel) {
 });
 
 //===============================================
@@ -124,8 +124,8 @@ chrome.devtools.panels.elements.createSidebarPane("XPATH FINDER", function(sideb
                                             dataObj.parentNode = result;
 
                                                 // Update the data of the side panel.
-                                                sidebar.setPage('panel.html'); // Showing a page on this sidebar.
-                                                sidebar.setHeight("100px");
+                                                //sidebar.setPage('panel.html'); // Showing a page on this sidebar.
+                                                //sidebar.setHeight("100px");
                                                 sidebar.setObject( updatePanelWithData(), "Extracted Data for the current Selected element" , function(obj){});
 
                                         });
