@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <!-- <script src="bower_components/platform/platform.js"></script>
+    <script src="DOMJSONizer.js"></script>
+    <script src="hostPageHelpers.js"></script>
+    <script src="evalHelper.js"></script>
+    <script src="panel.js"></script> -->
+
+    <!-- <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+    <link rel="import" href="bower_components/paper-toggle-button/paper-toggle-button.html">
+    <link rel="import" href="elements/core-pages/core-pages.html">
+    <link rel="import" href="elements/split-pane/split-pane.html">
+    <link rel="import" href="elements/element-tree/element-tree.html">
+    <link rel="import" href="elements/object-tree/object-tree.html">
+    <link rel="import" href="elements/method-list/method-list.html">
+    <link rel="import" href="elements/bread-crumbs/bread-crumbs.html"> -->
+    <style>
+      #controlContainer {
+        font-size: 1.3em;
+        font-weight: lighter;
+      }
+      #dataViewArea {
+          font-size: 1em;
+          font-weight: lighter;
+          font-style: normal;
+      }
+      #localViewToggle {
+        -webkit-border-radius: 5px 5px 5px 5px;
+        border: 1px solid #C7E4ED;
+        display: inline-block;
+        padding: 3px;
+      }
+      #localViewToggle > span {
+        margin: 5px;
+        color: rgb(57, 139, 19);
+        -webkit-user-select: none;
+        cursor: default;
+      }
+    </style>
+  </head>
+  <body unresolved>
+
+            <!-- Header Section for this Dev-Tool -->
+            <div class='split-pane-left'>
+                <div id='controlContainer'>
+                    <div id='localViewToggle'>
+                        <span>XPath Finder DevTools/Extension</span>
+                        <span> [NNG Experiments] </span>
+                    </div>
+                </div>
+            </div><br/><br/>
+
+            <!-- Here my info will be shown  -->
+            <div id="dataViewArea">
+                This is data section. <br/>
+                XPath Information and all will be shown.
+            </div>
+  </body>
+</html>
