@@ -1,3 +1,13 @@
+/*
+ * @Author: Ashutosh Mishra, NNG Experiments.
+ * @Version 1
+ * @XPath Finder
+ * @Started 25 AUG 2017
+ * @Modified 08 Nov 2017 [Prototype-C]
+ * @license : MIT License 2017
+ * Use of this source code is open
+ **/
+ 
 // The function below is executed in the context of the inspected page.
 // var page_getProperties = function() {
 //         var data = window.jQuery && $0 ? jQuery.data($0) : {};
