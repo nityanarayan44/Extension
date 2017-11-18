@@ -1,3 +1,13 @@
+/*
+ * @Author: Ashutosh Mishra, NNG Experiments.
+ * @Version 1
+ * @XPath Finder
+ * @Started 25 AUG 2017
+ * @Modified 08 Nov 2017 [Prototype-C]
+ * @license : MIT License 2017
+ * Use of this source code is open
+ **/
+
 (function() {
   // elementTree is the tree used for viewing composed DOM.
   // It is initialized once and its branches are kept up-to-date as necessary.

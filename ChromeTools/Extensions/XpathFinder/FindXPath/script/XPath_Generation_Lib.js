@@ -5,36 +5,39 @@
  * @license: MIT License 2017
  */
 
+ //==============================================================================
+ // NNGXPath Library
+ //==============================================================================
 var nngXPath = (function () {
     // Using resttriction
     'use strict';
 
-    // this function is strict...
+    // Following strict policy from here...
     var xpath = {
                 //==========================================================
                 // Spares function
                 //==========================================================
                 //
                 // generateAbsXPath
-                validateEventObjectThenProceed : function (event) {
+                validateEventObjectThenProceed: function (event) {
                     //Validate event object, and if found any problem then throw an exception
-                    if (event === undefined) {event = window.event; /* IE hack */} else { throw new Exception('[validateEventObjectThenProceed Module] : passed event object is undefined.'); }
+                    if (event === undefined) {event = window.event; /* IE hack */} else { /*Nothing to do.*/ }
 
                     //Extract the target, or so called element object
                     var target= 'target' in event ? event.target : event.srcElement; // another IE hack
 
                     // Send this element to process the xpath.
-                    return ((processNodes(target)).indexOf(".//") ? ".//"+ processNodes(target) : processNodes(target));
+                    return ((xpath.processNodes(target)).indexOf(".//") ? ".//"+ xpath.processNodes(target) : xpath.processNodes(target));
                 },
 
                 //process all the nodes
-                processNodes : function(element) {
+                processNodes: function(element) {
                     // Iterate through all the element for linear traversal
                     if(element !== undefined){
                         var ix = 0; var siblings= element.parentNode.childNodes;
                         for (var i= 0; i<siblings.length; i++) {
                             var sibling= siblings[i];
-                            if (sibling===element) {return getXPath(element.parentNode)+'/'+element.tagName+'['+(ix+1)+']'; }
+                            if (sibling===element) {return xpath.absXpathCalculation(element.parentNode)+'/'+element.tagName+'['+(ix+1)+']'; }
                             if (sibling.nodeType===1 && sibling.tagName===element.tagName) { ix++; }
                         }// End of for
                     }// End of if
@@ -42,7 +45,7 @@ var nngXPath = (function () {
                 },
 
                 // Now, calculate the xpath
-                absXpathCalculation : function (element) {
+                absXpathCalculation: function (element) {
 
                         //When element is body itself.
                         if (element !== undefined && element === document.body) return element.tagName;
@@ -59,9 +62,9 @@ var nngXPath = (function () {
                                     var sibling = siblings[i];
                                     if (sibling === element) {
                                         if (element.name && element.name !== undefined && element.name !== '' )
-                                            return XPath.absXpathCalculation(element.parentNode) + '/' + element.tagName + '[@name="' + element.name + '"]';
+                                            return xpath.absXpathCalculation(element.parentNode) + '/' + element.tagName + '[@name="' + element.name + '"]';
                                         else
-                                            return XPath.absXpathCalculation(element.parentNode) + '/' + element.tagName + '[' + (ix + 1) + ']';
+                                            return xpath.absXpathCalculation(element.parentNode) + '/' + element.tagName + '[' + (ix + 1) + ']';
                                     }
                                     if (sibling.nodeType === 1 && sibling.tagName === element.tagName) ix++;
                                 }//End of for
@@ -76,16 +79,16 @@ var nngXPath = (function () {
                 //==========================================================
 
                 // 1: getting absolute XPath.
-                getAbsXPath : function(event) {
+                getAbsXPath: function(event) {
                     // returning final output
-                    return validateEventObjectThenProceed(event);
+                    return xpath.validateEventObjectThenProceed(event);
                 },
 
                 // 2: getting XPath, generated from Robula algorithm.
-                getRobulaXpath : function (element) { return ''; },
+                getRobulaXPath: function (element) { return ''; },
 
                 // 3: getting XPath Suggestions [further xpath possibilities]
-                getXPathSuggestion : function (obj) {
+                getXPathSuggestion: function (obj) {
                     var sugg = "";
                     if(obj !== undefined && obj !== null ){
                         // Suggestions based on ID
@@ -125,3 +128,18 @@ var nngXPath = (function () {
     // Finally return the object to global library object
     return xpath;
 }());
+// Library ends.
+
+//==============================================================================
+// Normal use
+//==============================================================================
+// Adding listener for mousedown events.
+    document.addEventListener('mousedown', function (event) {
+        var xp = nngXPath.getAbsXPath(event);
+        console.log("XPATH = " + xp);
+        event.stopPropagation();
+        // Show injection log
+        console.log("[Injection] Current Element " + event.target.tagName);
+        // Highlight at the time of mousedown
+        //event.target.style = "border-width: 5px; border-style: dotted; border-color: red; ";
+    }, false);
