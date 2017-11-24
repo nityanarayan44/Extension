@@ -34,15 +34,17 @@ var dataObj = {
 var getXPathSuggestionsList = function (eleName, eleAttribs, eleInnerText) {
     var xpList = [];
     // Process the attribs.
-    if (eleAttribs.length > 0) {
+    if (eleAttribs !== undefined && eleName !== undefined && (eleName === "svg" || eleName === "SVG") && eleAttribs.length > 0) {
+            xpList.push('This is an SVG element, You need to aware of it.');
+    } else if (eleAttribs !== undefined && eleName !== undefined && eleAttribs.length > 0) {
         xpList.push('You could also combine or modify these suggestions to build your own solid XPath.');
         eleAttribs.map(function (attribute) { xpList.push('//*[' + attribute + ']  or  //' + eleName + '[' + attribute + ']'); });
-        if (eleInnerText.indexOf("\n") !== -1) {
+        if (eleInnerText !== undefined && eleInnerText.length > 0 && eleInnerText.indexOf("\n") !== -1) {
                 xpList.push("//*[contains(text(), '" + (eleInnerText.replace(/(\r\n\t|\t|\r|\n|)/g, '')).substring(0, ((eleInnerText.length > 9) ? 9 : (eleInnerText.length / 2) + 1)) + "')]  or  //" + eleName + "[contains(text(), '" + (eleInnerText.replace(/(\r\n\t|\t|\r|\n|)/g, '')).substring(0, ((eleInnerText.length > 9) ? 9 : eleInnerText.length / 2)) + "')]");
-        } else {
+        } else if (eleInnerText !== undefined && eleInnerText.length > 0) {
                 xpList.push("//*[text()='" + eleInnerText + "']  or  //" + eleName + "[text()='" + eleInnerText + "']");
         }
-    } else if (eleInnerText.length > 0) {
+    } else if (eleInnerText !== undefined && eleName !== undefined && eleInnerText.length > 0) {
         xpList.push('You could also combine or modify these suggestions to build your own solid XPath.');
         if (eleInnerText.indexOf("\n") !== -1) {
                 xpList.push("//*[contains(text(), '" + (eleInnerText.replace(/(\r\n\t|\t|\r|\n|)/g, '')).substring(0, ((eleInnerText.length > 9) ? 9 : (eleInnerText.length / 2) + 1)) + "')]  or  //" + eleName + "[contains(text(), '" + (eleInnerText.replace(/(\r\n\t|\t|\r|\n|)/g, '')).substring(0, ((eleInnerText.length > 9) ? 9 : eleInnerText.length / 2)) + "')]");
@@ -70,9 +72,9 @@ var updatePanelWithData = function () {
 // Creating Extension panel
 //===============================================
 chrome.devtools.panels.create("XPath Finder",
-  "icon.png",
-  "panel.html",
-  function (extensionPanel) {
+        "icon.png",
+        "panel.html",
+        function (extensionPanel) {
 });
 
 //===============================================
@@ -84,8 +86,8 @@ chrome.devtools.panels.create("XPath Finder",
 // sidebar.setPage('pageRelativeAddress'); // Showing a page on this sidebar.
 
 chrome.devtools.panels.elements.createSidebarPane("XPATH FINDER", function(sidebar) {
-            // getting a selected element form the elements panel, and evaluate some expression.
-            function updateElementProperties() {
+        // getting a selected element form the elements panel, and evaluate some expression.
+        function updateElementProperties() {
                 // evaluation of current selected element.
                 //chrome.devtools.inspectedWindow.eval("$0.tagName", th)
                 chrome.devtools.inspectedWindow.eval("$0.tagName || $0.localName || $0.nodeName", function(result, error){
@@ -135,15 +137,11 @@ chrome.devtools.panels.elements.createSidebarPane("XPATH FINDER", function(sideb
                         });
                     });
                 });
+        }
 
+        // Call once, at start
+        updateElementProperties();
 
-
-
-            }
-
-            // Call once, at start
-            updateElementProperties();
-
-            // Registering an event when element selection is changes
-            chrome.devtools.panels.elements.onSelectionChanged.addListener(updateElementProperties);
+        // Registering an event when element selection changes
+        chrome.devtools.panels.elements.onSelectionChanged.addListener(updateElementProperties);
 });
