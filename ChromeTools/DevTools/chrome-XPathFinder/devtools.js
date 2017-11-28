@@ -19,6 +19,9 @@
 //         copy[props[i]] = data[props[i]];
 //         return copy;
 // }
+// TODO: Have to include in XPath data. [In order to provide more details]
+//      - Parent Info
+//      - Child Info
 
 // It will collect all the data.
 var dataObj = {
