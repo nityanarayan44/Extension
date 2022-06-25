@@ -1,0 +1,57 @@
+<!doctype html>
+<!--
+    @Author : Ashutosh Mishra
+    @Version: ProtoType-A
+    @desc   : This page is shown when the extension button is clicked, because the
+    "browser_action" field in manifest.json contains the "default_popup" key with
+    value "popup.html".
+ -->
+<html>
+    <head>
+        <title>Getting Started Extension's Popup</title>
+        <!--
+        - JavaScript and HTML must be in separate files: see our Content Security
+        - Policy documentation[1] for details and explanation.
+        -
+        - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
+        -->
+        <!-- <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> -->
+        <script src="script/popup.js"></script>
+        <link rel="stylesheet" href="style/global.css">
+    </head>
+  <body>
+      	<!-- popup UI control structure -->
+	<div id="controls">
+
+		<!-- Header/Title -->
+		<div class="HeaderTitle"> XPath Finder </div><br/>
+
+		<!-- Results -->
+		<!-- If there is data to show -->
+		<div id="status"></div>
+		<!-- When there is no data -->
+		<div id="noData"></div>
+
+		<!-- Control for cleaering data -->
+		<u> 
+			<a id="clearDataLink" title="Clear the data for the last selected element."> 
+				<font size="2em" color="darkcyan" face="Calibri" style="cursor: pointer; user-select: none;">Clear Data</font>
+			</a>
+		</u>
+		<br/>
+
+		<!-- Footer/ Extra information about this extension -->
+		<hr/>
+		<font size="2.1em" color="darkcyan" face="Calibri">
+			<span title="On this version, Having XPath Suggestions. And in next version will be having Advanced XPath with use of xpath axis, and XQuery along with xpath advanced functions."> @Version: v1.0.0 (Prototype-B in Dev), </span><br/>
+			<span> @Author: Ashutosh Mishra, Chrome Extension Experiments</span> &nbsp;
+			<span> @Github:nityanarayan44/Extension.git </span>
+		</font>
+		<br/>
+		<font size="1em" color="darkcyan" face="Calibri">
+			<marquee behavior="ALTERNATE">Extension Ready.</marquee>
+		</font>
+	</div>
+
+  </body>
+</html>
