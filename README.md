@@ -19,4 +19,4 @@
 this is some desc.
 
 #Images
-![Extension app image](XpathFinder/XPF_ScreenShots/0.png "this image shows the appearence for the extension application.")
+![Extension app image](ChromeExtensions/XpathFinder/XPF_ScreenShots/0.png "this image shows the appearence for the extension application.")
