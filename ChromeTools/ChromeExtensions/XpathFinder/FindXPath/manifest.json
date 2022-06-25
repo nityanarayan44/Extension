@@ -1,31 +1,30 @@
 {
-    "manifest_version": 2,
-
+    "manifest_version": 3,
+    "author": "Ashutosh Mishra (Nitya Narayan Gautam)",
     "name": "XPath_Finder : NNG Experiments",
     "description": "This extension shows a XPATH along with few more details for the current page",
     "version": "1",
 
-    "web_accessible_resources": [
-        "images/*.png",
-        "style/*.css",
-        "script/background.js",
-        "script/popup.js"
-    ],
-
-    "browser_action": {
-        "default_title":"XPath Finder",
-        "default_icon": "images/icon.png",
-        "default_popup": "popup.html"
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "images/icon.png"
+        }
     },
-
+    
+    "option_page": "popup.html",
+    "option_ui": {
+        "page": "popup.html"
+    },
+    
     "background": {
-        "persistent": false,
-        "scripts": ["script/background.js"]
+        "service_worker": "script/background.js"
     },
-
+    
     "content_scripts" : [
         {
             "matches": ["*://*/*"],
+            "run_at": "document_idle",
             "js": ["script/injection.js"]
         }
     ],
@@ -35,6 +34,19 @@
         "tabs",
         "activeTab",
         "webNavigation",
-        "*://*/*"
+        "storage"
     ]
+
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "images/*.png",
+                "style/*.css",
+                "script/background.js",
+                "script/popup.js"
+            ],
+            "use_dynamic_url": true
+        }
+    ]
+    
 }
